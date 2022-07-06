@@ -10,12 +10,7 @@ import { ListService } from 'src/app/services/list.service';
   styleUrls: ['./list-render.component.css']
 })
 export class ListRenderComponent implements OnInit {
-  animals: Animal[] = [
-    { name: "Turca", type: "Dog", age: 4 },
-    { name: "Tom", type: "Cat", age: 10 },
-    { name: "Frida", type: "Dog", age: 5 },
-    { name: "Bob", type: "Horse", age: 1 },
-  ];
+  animals: Animal[] = [];
 
   animal: Animal = {
     name: "teste",
@@ -25,7 +20,9 @@ export class ListRenderComponent implements OnInit {
 
   animalDetails = '';
 
-  constructor(private listService: ListService) { }
+  constructor(private listService: ListService) {
+    this.getAnimals();
+   }
 
   ngOnInit(): void {
   }
@@ -44,4 +41,13 @@ export class ListRenderComponent implements OnInit {
     this.animals = this.listService.remove(this.animals, animal);
   }
 
+  //SUBSCRIBE => por causa do observable lá do service no final do método usamos o subscribe,
+  //que diz que o evento vai ser concretizado, que seria como se ele estivesse esperando esse evento
+  //para realizar alguma coisa e dentro do subscribe eu tenho como fazer alguma coisa com as propriedades
+  //do meu componente
+  getAnimals():void {
+    this.listService.getAll().subscribe(
+      (animals) => (this.animals = animals)
+    );
+  }
 }

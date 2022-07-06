@@ -31,8 +31,13 @@ export class ListRenderComponent implements OnInit {
   }
 
   removeAnimal(animal: Animal) {
-    console.log('Removendo animal...');
-    this.animals = this.listService.remove(this.animals, animal);
+
+    //exclui no front-end
+    this.animals = this.animals.filter((a) => animal.name !== a.name);
+
+    //exclui no back-end, usando o listService
+    //usamos o subscribe pq é a maneira do angular dizer que o evento foi executado
+    this.listService.remove(animal.id).subscribe();
   }
 
   //SUBSCRIBE => por causa do observable lá do service no final do método usamos o subscribe,
